@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "exports": {
-    "./zodSchema": "./src/zod.ts"
+    "./zodSchema": "./src/zod.ts",
+    "./customtypes": "./src/Types.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
