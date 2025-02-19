@@ -134,7 +134,8 @@ router.post("/signin", async (req: Request, res: Response) => {
             const token = jwt.sign({id:existinguser.id,email:existinguser.email}, process.env.JWT_SECRET as string,{ expiresIn: "1h" });
             res.cookie("jwtsecret",token);
             res.status(200).json({
-                mesg:"SignIn Successful"
+                mesg:"SignIn Successful",
+                token:token
             });
             return;
         }
