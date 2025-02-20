@@ -21,7 +21,7 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
 			primary:'hsl(204, 38, 3)',
-			secondary:'hsl(206, 76, 33)',
+			secondary:'hsl(228, 75, 32)',
 			secondary_light:'hsl(206, 70, 35)',
 			other:'hsl(212, 83, 59)',
 			white:'hsl(213, 36, 95)',
