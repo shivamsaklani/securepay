@@ -7,31 +7,6 @@ const express = require("express");
 const router = Router();
 
 
-router.get("/balance",VerifyToken,async (req:Request,res:Response)=>{
-
-    try {
-       const amount= await Database.account.findFirst({
-            where:{
-                userId:Number(req.userId)
-            }
-        });
-        res.status(200).json({
-            mesg:"Get user Balance",
-            balance:amount?.balance
-        });
-        return;
-        
-    } catch (e) {
-
-        res.json({
-            mesg:"Try again"
-        });
-        return;
-        
-    }
-
-    
-});
 
 router.post("/transferfund",VerifyToken,async (req:Request,res:Response)=>{
 

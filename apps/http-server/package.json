@@ -10,7 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@repo/database": "workspace:*",
     "@repo/typesafe": "workspace:*",
@@ -28,5 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.9",
     "zod": "^3.24.2"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }

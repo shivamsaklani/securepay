@@ -148,11 +148,93 @@ router.post("/signin", async (req: Request, res: Response) => {
 
 });
 
-router.get("/verifytoken", VerifyToken, (req: Request, res: Response) => {
-    console.log(req.userId);
-    res.json({
-        mesg: "working fine"
-    })
+router.get("/allusers", VerifyToken,async (req: Request, res: Response) => {
+  try {
+      const Response = await Database.user.findMany({
+        select:{
+            id:true,
+            email:true,
+            name:true,
+            image:true,
+            Account:true
+        }
+      });
+      res.status(200).json({
+        users:Response
+      })
+      return;
+  } catch (error) {
+    res.status(500).send("No user Exist");
+    return;
+  }
+});
+
+router.get("/getuser/:userid",async (req:Request,res:Response)=>{
+    let response;
+    const id = Number(req.params.userid);
+    if(!id){
+        res.status(404).send("please give id"); return;
+    }
+    else{
+        try {
+             response = await Database.user.findFirst({
+                where:{
+                    id:id
+                },
+                select:{
+                    email:true,
+                    name:true,
+                    Account:true,
+                    id:true,
+                    image:true
+                },
+                
+            });
+            if(!response) {
+                res.status(404).send("No user found");
+                return ;
+            }
+            res.status(200).json({
+                userdetails:response.name,
+                Account: response.Account
+            });
+        } catch (error) {
+           res.status(500).send("Try Again");
+           return;
+        }     
+    }
+
+});
+
+router.get("/currentuser",VerifyToken, async (req:Request,res:Response)=>{
+        const id = req.userId;
+       
+        try {
+            const response = await Database.user.findFirst({
+                where:{
+                    id:Number(id)
+                },
+                select:{
+                    email:true,
+                    name:true,
+                    Account:true,
+                    id:true,
+                    image:true
+                },
+            });
+
+            res.status(200).json({
+                response
+            });
+            return;
+        } catch (error) {
+
+            res.status(500).send("Try Again");
+            return;
+            
+        }
+
+        
 });
 
 

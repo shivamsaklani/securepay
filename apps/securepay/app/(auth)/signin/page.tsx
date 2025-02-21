@@ -9,25 +9,28 @@ import { useRef } from "react";
 import { toast } from "react-hot-toast";
 import {motion} from "framer-motion";
 export default function SignIn(){
-
         const passwordref= useRef<HTMLInputElement>(null);
         const emailref= useRef<HTMLInputElement >(null);
     async function backend(){
    
         const password= passwordref.current?.value;
         const email= emailref.current?.value;
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/signin`,{
-       
-          password:password,
-          email:email,
-        },{
-          withCredentials:true
-        });
-        if(!response){
-          toast.error("Try Again");
-        }else{
-         toast.success("Successful");
-        }
+       try {
+         const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/signin`,{
+        
+           password:password,
+           email:email,
+         },{
+           withCredentials:true
+         });
+         if(!response){
+           toast.error("No user Found");
+         }else{
+          toast.success("Successful");
+         }
+       } catch (error) {
+           toast.error("Try Again");
+       }
       }
     return(
         <>
