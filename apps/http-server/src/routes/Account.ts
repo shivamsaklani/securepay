@@ -10,7 +10,7 @@ const router = Router();
 
 router.post("/transferfund",VerifyToken,async (req:Request,res:Response)=>{
 
-    const {receiverid,sendamount} = req.body;
+    const {account_number,sendamount} = req.body;
     const amount = Number(sendamount);
 
     if(amount<=0 || isNaN(amount) ){
@@ -18,9 +18,9 @@ router.post("/transferfund",VerifyToken,async (req:Request,res:Response)=>{
         return;
     }
     try {
-        const Reciever=  await Database.user.findFirst({
+        const Reciever=  await Database.account.findFirst({
             where:{
-                id:receiverid
+                account_number:account_number
             }
         });
         if(!Reciever) {
@@ -54,7 +54,7 @@ router.post("/transferfund",VerifyToken,async (req:Request,res:Response)=>{
             }),
             Database.account.update({
                 where:{
-                    userId:Number(Reciever?.id)
+                    userId:Number(Reciever.userId)
                 },
                 data:{
                     balance:{increment : amount}
@@ -78,25 +78,26 @@ router.post("/transferfund",VerifyToken,async (req:Request,res:Response)=>{
 });
 
 router.post("/topup",async (req:Request,res:Response)=>{
-    const {sendamount,receiverid} =req.body;
+    const {sendamount,account_number} =req.body;
+
     const amount = Number(sendamount);
-    if(!amount || ! receiverid){
+    if(!amount || ! account_number){
         res.status(404).send("Enter Proper Details");
         return;
     }
     try {
-        const Receiver= await Database.user.findFirst({
-        where:{
-            id:receiverid
-        }
+        const checkAccount = await Database.account.findFirst({
+            where:{
+                account_number:account_number
+            }
         });
-        if(!Receiver){
-            res.status(404).send("User Doesn't Exit");
+        if(!checkAccount){
+            res.status(404).send("No Valid Account");
             return;
         }
         await  Database.account.update({
             where:{
-                id:receiverid
+                account_number:account_number
             },
             data:{
                 balance:{increment:amount}

@@ -2,18 +2,20 @@ import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card} from "@/components/ui/card"
 
+
 type userbox ={
     name:string,
     avatar:string,
+    id:string,
     onclick:()=>void
 }
 
 
 
 export default function UserBox({
-    name,avatar,onclick,
+    name,avatar,onclick,id
 }:userbox){
-
+    
     return(<>
     <Card className="h-12 content-center w-full ">
        

@@ -1,11 +1,34 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
+import axios from "axios";
 import { Wallet } from "lucide-react";
+import { useRef } from "react";
 
 export default function Recharge(){
+    const Amount = useRef<HTMLInputElement>(null);
+    const Account_Number= useRef<HTMLInputElement>(null);
 
+    async function Topup() {
+        console.log(Account_Number.current?.value as string);
+        console.log(Amount.current?.value);
+       try {
+         await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/account/topup`,{
+             withCredentials:true, 
+         },{
+             data:{
+             
+                     "account_number":Account_Number.current?.value as string,
+                     "sendamount":Number(Amount.current?.value)
+             
+             }
+         });       
+       } catch (error) {
+        console.log(error);
+       }
+    }
     return(
         <>
          
@@ -24,13 +47,13 @@ export default function Recharge(){
       
         <div>
         <Label>Enter Amount</Label>
-        <Input type="text" placeholder="Enter Amount"/>
+        <Input ref={Amount} type="text" placeholder="Enter Amount"/>
         <Label>Enter Account Number</Label>
-            <Input type="text" placeholder="Enter Your Account Number"/> 
+            <Input ref={Account_Number} type="text" placeholder="Enter Your Account Number"/> 
         </div> 
          </CardContent>
 
-           <CardFooter className="grid content-center "> <Button className="bg-secondary text-white font-primary text-lg" variant="outline"> Recharge</Button></CardFooter>
+           <CardFooter className="grid content-center "> <Button className="bg-secondary text-white font-primary text-lg" onClick={Topup} variant="outline"> Recharge</Button></CardFooter>
         </Card>
          
       </div>

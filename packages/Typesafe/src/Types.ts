@@ -1,6 +1,7 @@
 export interface UserAccount{
     id:string,
-    balance:number
+    balance:number,
+    account_number:string
 }
 
 export interface UserDetails{

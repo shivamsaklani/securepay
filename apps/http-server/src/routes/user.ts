@@ -2,6 +2,7 @@ import { Database } from "@repo/database/Database";
 import { Request, Response, Router } from "express";
 import { UserInput, UserLogin } from "@repo/typesafe/zodSchema";
 import VerifyToken from "./verifytoken";
+import { GenerateAccount } from "./generateAccount";
 const dot = require("dotenv");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -56,22 +57,46 @@ router.post("/signup", async (req: Request, res: Response) => {
                 return;
 
             }
-
-
-
-            const user = await Database.user.create({
-                data: {
-                    name: UserData.data.username,
-                    email: UserData.data.email,
-                    password: await bcrypt.hash(UserData.data.password, 10)
+            
+            const {userdetails,userAccount}= await Database.$transaction(async (prisma)=>{
+                const userdetails = await prisma.user.create({
+                    data: {
+                        name: UserData.data.username,
+                        email: UserData.data.email,
+                        password: await bcrypt.hash(UserData.data.password, 10)
+                    }
+                });
+                let account=await GenerateAccount();
+                let userAccount;
+                try {
+                     userAccount = await prisma.account.create({
+                        data: {
+    
+                            userId: userdetails.id,
+                            balance:0,
+                            account_number:account
+                        }
+                    });
+                } catch (error:any) {
+                    if (error.code === "P2002") { // Prisma unique constraint violation
+                        account = await GenerateAccount();
+                        userAccount = await prisma.account.create({
+                            data: {
+                                userId: userdetails.id,
+                                balance: 0,
+                                account_number: account
+                            }
+                        });
+                    } else {
+                        throw error;
+                    }
+                    
                 }
+                return {userdetails,userAccount}
             });
-            const userAccount = await Database.account.create({
-                data: {
-                    userId: user.id,
-                    balance: 0,
-                }
-            })
+
+
+            
             res.status(200).json({
                 mesg: "New User created",
                 balance: userAccount.balance

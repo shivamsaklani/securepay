@@ -101,8 +101,8 @@ export default function Dashboard({children}:{
          
          <CardContent className="grid grid-rows-3 justify-start items-center top-10 p-10">
          
-         <h1 className="font-primary text-brand">Balance :{currentuser?.Account.balance}</h1>
-         <h1 className="font-secondary text-lg"> Account Address:</h1>
+         <h1 className="font-primary text-brand">Balance :${currentuser?.Account.balance}</h1>
+         <h1 className="font-secondary text-lg"> Account Address<p className="font-primary text-brand">{currentuser?.Account.account_number}</p></h1>
         {(balance <= 0) && <p className="font-other text-md text-red-400">Please top up your bank balance before making fund transfer</p>
       }
            </CardContent>

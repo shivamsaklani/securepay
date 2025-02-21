@@ -1,15 +1,17 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import UserBox from "../CustomUI/UserBox";
 import axios from "axios";
+import { useRouter } from "next/navigation"
 import { useCurrent } from "../Customhook/Currentuser";
 import {UserDetails} from "@repo/typesafe/customtypes";
 export default function Dashboard(){
   const [currentuser,setCurrentUser] = useState<UserDetails | null>(null);
   const user = useCurrent();
+  const router = useRouter();
   const [users,setuser]=useState([{
     id:"",
     name :"",
@@ -45,6 +47,11 @@ export default function Dashboard(){
    },[]);
   
 
+
+    function Transferfund(id:string){
+        router.push(`/Dashboard/transfer/${id}`);
+    }
+
   return(<>
   
   <Card className="grid grid-rows-[auto,1fr] h-full w-full p-10">
@@ -55,7 +62,7 @@ export default function Dashboard(){
       
         <div className=" space-y-5 overflow-y-auto h-[400px] p-4">
           {users.map((items)=>(
-            <UserBox key={items.id} name={items.name} avatar={items.image} onclick={()=>{}} />
+            <UserBox key={items.id} id={items.id} name={items.name} avatar={items.image} onclick={()=>Transferfund(items.id)} />
           ))}
         </div>
        

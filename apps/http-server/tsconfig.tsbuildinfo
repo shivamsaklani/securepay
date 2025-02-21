@@ -1,1 +1,1 @@
-{"root":["./src/Request.d.ts","./src/api_v1.ts","./src/routes/Account.ts","./src/routes/mainroute.ts","./src/routes/user.ts","./src/routes/verifytoken.ts"],"version":"5.7.3"}
+{"root":["./src/Request.d.ts","./src/api_v1.ts","./src/routes/Account.ts","./src/routes/generateAccount.ts","./src/routes/mainroute.ts","./src/routes/user.ts","./src/routes/verifytoken.ts"],"version":"5.7.3"}
