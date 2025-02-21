@@ -8,7 +8,9 @@ import Link from "next/link";
 import { useRef } from "react";
 import { toast } from "react-hot-toast";
 import {motion} from "framer-motion";
+import { useRouter } from "next/navigation";
 export default function SignIn(){
+        const router=useRouter();
         const passwordref= useRef<HTMLInputElement>(null);
         const emailref= useRef<HTMLInputElement >(null);
     async function backend(){
@@ -27,6 +29,7 @@ export default function SignIn(){
            toast.error("No user Found");
          }else{
           toast.success("Successful");
+          router.push("/Dashboard");
          }
        } catch (error) {
            toast.error("Try Again");

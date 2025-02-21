@@ -6,27 +6,28 @@ import { Label } from "@radix-ui/react-label";
 import axios from "axios";
 import { Wallet } from "lucide-react";
 import { useRef } from "react";
+import toast from "react-hot-toast";
 
 export default function Recharge(){
     const Amount = useRef<HTMLInputElement>(null);
     const Account_Number= useRef<HTMLInputElement>(null);
 
     async function Topup() {
-        console.log(Account_Number.current?.value as string);
-        console.log(Amount.current?.value);
+        const account=Account_Number.current?.value as string;
+        const amount =Amount.current?.value
        try {
-         await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/account/topup`,{
-             withCredentials:true, 
+         const response= await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/account/topup`,{
+                account_number:account as string,
+                sendamount:Number(amount)
+        
          },{
-             data:{
-             
-                     "account_number":Account_Number.current?.value as string,
-                     "sendamount":Number(Amount.current?.value)
-             
-             }
+            withCredentials:true,
          });       
+         if(response.status === 200){
+            toast.success(`${account} Successfully received ₹${amount}`);
+         }
        } catch (error) {
-        console.log(error);
+        toast.error("Try Again");
        }
     }
     return(

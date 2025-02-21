@@ -79,7 +79,6 @@ router.post("/transferfund",VerifyToken,async (req:Request,res:Response)=>{
 
 router.post("/topup",async (req:Request,res:Response)=>{
     const {sendamount,account_number} =req.body;
-
     const amount = Number(sendamount);
     if(!amount || ! account_number){
         res.status(404).send("Enter Proper Details");
@@ -91,6 +90,7 @@ router.post("/topup",async (req:Request,res:Response)=>{
                 account_number:account_number
             }
         });
+      
         if(!checkAccount){
             res.status(404).send("No Valid Account");
             return;

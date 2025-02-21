@@ -1,7 +1,7 @@
 "use client"
-import { Card, CardContent } from "@/components/ui/card";
-import { Children, ReactNode, useEffect, useState } from "react";
-import axios from "axios";
+import {  CardContent } from "@/components/ui/card";
+import {  ReactNode, useEffect, useState } from "react";
+
 import { useCurrent } from "../Customhook/Currentuser";
 import {UserDetails} from "@repo/typesafe/customtypes";
 import { LucideShieldCheck } from "lucide-react";
@@ -14,18 +14,10 @@ export default function Dashboard({children}:{
 }){
   const [currentuser,setCurrentUser] = useState<UserDetails | null>(null);
   const user = useCurrent();
-  const [users,setuser]=useState([{
-    id:"",
-    name :"",
-    image:"",
-    email:"",
-    balance:""
 
-  }]);
-  const [path,setpathname]=useState("Home");
   const navigation= [
     { name: "Home", path: "/Dashboard" },
-    { name: "Transfer", path: "/transfer" },
+    { name: "Transfer", path: "/Dashboard/transfer" },
     {name:"TopUp", path:"/Dashboard/topup"}
   ];
   const balance = currentuser?.Account?.balance || 0;
@@ -36,23 +28,7 @@ export default function Dashboard({children}:{
     }
   }, [user]);
  
-   useEffect( ()=>{
-
-    let response;
-       const findusers= async()=>{
-        
-       try {
-         response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/allusers`,{
-           withCredentials:true
-         });
-         setuser(response.data.users);
-       } catch (error) {
-          console.log(error);
-       }
-        
-      }
-      findusers();
-   },[]);
+   
   return(<>
   <Navbar>
     <div className="flex h-full w-full bg-muted items-center justify-around bg-secondary">
@@ -60,11 +36,7 @@ export default function Dashboard({children}:{
         <div className="flex gap-x-3 flex-cols justify-center items-center ">
         <LucideShieldCheck/>
         <p className="text-brand ">SecurePay</p>
-
-        
           </div>
-          
-          
           </motion.div>
         
           <div className="hidden sm:flex flex-row items-center font-primary text-md space-x-6">
@@ -72,11 +44,7 @@ export default function Dashboard({children}:{
         <motion.div
           key={item.name}
           whileHover={{ scale: 1.1 }}
-          className={`p-2 rounded-full cursor-pointer transition-all duration-300 ${
-            path=== item.path
-              ? "bg-white text-black border border-white"
-              : "hover:border-white"
-          }`}
+          className={`p-2 rounded-full  cursor-pointer transition-all duration-300`}
         >
           <Link href={item.path}>{item.name}</Link>
         </motion.div>
@@ -101,7 +69,7 @@ export default function Dashboard({children}:{
          
          <CardContent className="grid grid-rows-3 justify-start items-center top-10 p-10">
          
-         <h1 className="font-primary text-brand">Balance :${currentuser?.Account.balance}</h1>
+         <h1 className="font-primary text-brand">Balance : ₹ {currentuser?.Account.balance}</h1>
          <h1 className="font-secondary text-lg"> Account Address<p className="font-primary text-brand">{currentuser?.Account.account_number}</p></h1>
         {(balance <= 0) && <p className="font-other text-md text-red-400">Please top up your bank balance before making fund transfer</p>
       }
