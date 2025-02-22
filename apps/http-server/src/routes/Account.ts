@@ -77,6 +77,23 @@ router.post("/transferfund",VerifyToken,async (req:Request,res:Response)=>{
 
 });
 
+router.get("/getbalance",VerifyToken,async (req:Request,res:Response)=>{
+    try {
+        const response=await Database.account.findFirst({
+            where:{
+                userId:Number(req.userId)
+            }
+        });
+        res.status(200).json({
+            response
+        });
+        return;
+    } catch (error) {
+        res.status(500).send("Try Again");
+        return;
+    }
+});
+
 router.post("/topup",async (req:Request,res:Response)=>{
     const {sendamount,account_number} =req.body;
     const amount = Number(sendamount);
@@ -111,5 +128,39 @@ router.post("/topup",async (req:Request,res:Response)=>{
         return;
     }
 });
+
+router.post("/getuser",async (req:Request,res:Response)=>{
+    const {account_number}=req.body;
+    if(!account_number) {
+        res.status(404).send("Enter Account number");
+        return;}
+    try {
+        
+               const account= await Database.account.findFirst({
+                    where:{
+                        account_number:account_number
+                    }
+               });
+               if(!account){
+                res.status(404).send("No Account Found");
+                return;
+               }
+               const user = await Database.user.findFirst({
+                where:{
+                    id:account?.userId
+                }
+               });
+               res.status(200).json({
+                    user:user?.name
+               });
+               return;
+       
+        
+    } catch (er) {
+        res.status(500).send("Try Again");
+        return;        
+    }
+});
+
 
 module.exports = router;

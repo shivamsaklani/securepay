@@ -160,7 +160,7 @@ router.post("/signin", async (req: Request, res: Response) => {
             res.cookie("jwtsecret",token);
             res.status(200).json({
                 mesg:"SignIn Successful",
-                token:token
+
             });
             return;
         }

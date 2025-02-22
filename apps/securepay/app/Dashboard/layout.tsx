@@ -1,7 +1,6 @@
 "use client"
 import {  CardContent } from "@/components/ui/card";
 import {  ReactNode, useEffect, useState } from "react";
-
 import { useCurrent } from "../Customhook/Currentuser";
 import {UserDetails} from "@repo/typesafe/customtypes";
 import { LucideShieldCheck } from "lucide-react";
@@ -9,9 +8,11 @@ import Navbar from "../CustomUI/navbar";
 import {motion} from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 export default function Dashboard({children}:{
   children:ReactNode
 }){
+  const router = useRouter();
   const [currentuser,setCurrentUser] = useState<UserDetails | null>(null);
   const user = useCurrent();
 
@@ -20,13 +21,20 @@ export default function Dashboard({children}:{
     { name: "Transfer", path: "/Dashboard/transfer" },
     {name:"TopUp", path:"/Dashboard/topup"}
   ];
-  const balance = currentuser?.Account?.balance || 0;
+  const balance = currentuser?.Account.balance || 0;
+
+  useEffect(()=>{
+  },[user?.Account?.balance]);
 
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
     }
   }, [user]);
+
+  function Logout(){
+    router.push("/signin");
+  }
  
    
   return(<>
@@ -35,7 +43,7 @@ export default function Dashboard({children}:{
       <motion.div className="font-primary " whileHover={{cursor:"pointer"}}>
         <div className="flex gap-x-3 flex-cols justify-center items-center ">
         <LucideShieldCheck/>
-        <p className="text-brand ">SecurePay</p>
+        <p className="text-brand" onClick={()=>router.push("/")}>SecurePay</p>
           </div>
           </motion.div>
         
@@ -52,7 +60,7 @@ export default function Dashboard({children}:{
     </div>
 
         <motion.div className="sm:flex  hidden" whileHover={{scale:1.2}}>
-        <Button className="rounded-full font-primary">Logout</Button>
+        <Button className="rounded-full font-primary" onClick={Logout}>Logout</Button>
         </motion.div>
       </div>
     </Navbar>
@@ -69,7 +77,7 @@ export default function Dashboard({children}:{
          
          <CardContent className="grid grid-rows-3 justify-start items-center top-10 p-10">
          
-         <h1 className="font-primary text-brand">Balance : ₹ {currentuser?.Account.balance}</h1>
+         <h1 className="font-primary text-brand">Balance : ₹ {balance}</h1>
          <h1 className="font-secondary text-lg"> Account Address<p className="font-primary text-brand">{currentuser?.Account.account_number}</p></h1>
         {(balance <= 0) && <p className="font-other text-md text-red-400">Please top up your bank balance before making fund transfer</p>
       }

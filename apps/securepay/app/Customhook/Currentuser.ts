@@ -1,8 +1,9 @@
+import { UserDetails } from "@repo/typesafe/customtypes";
 import axios from "axios"
 import { useEffect, useState } from "react";
 
 export const useCurrent =()=>{ 
-    const [user , setuser] = useState(null);
+    const [user , setuser] = useState<UserDetails | null>(null);
     useEffect(() => {
         const fetchUser = async () => {
           try {
