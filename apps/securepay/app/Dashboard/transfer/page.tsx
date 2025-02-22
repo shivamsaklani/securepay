@@ -1,10 +1,10 @@
+import TransferBox from "@/app/CustomUI/TransferBox";
+
 export default function Transfer(){
 
     return(
         <>
-        <div>
-            NO ID
-        </div>
+       <TransferBox/>
         </>
     )
 }
