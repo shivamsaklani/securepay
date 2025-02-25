@@ -9,12 +9,14 @@ import {motion} from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { RecoilRoot } from "recoil";
 export default function Dashboard({children}:{
   children:ReactNode
 }){
   const router = useRouter();
   const [currentuser,setCurrentUser] = useState<UserDetails | null>(null);
   const user = useCurrent();
+
 
   const navigation= [
     { name: "Home", path: "/Dashboard" },
@@ -32,7 +34,7 @@ export default function Dashboard({children}:{
     }
   }, [user]);
 
-  function Logout(){
+  async function Logout(){
     router.push("/signin");
   }
  
@@ -43,7 +45,10 @@ export default function Dashboard({children}:{
       <motion.div className="font-primary " whileHover={{cursor:"pointer"}}>
         <div className="flex gap-x-3 flex-cols justify-center items-center ">
         <LucideShieldCheck/>
-        <p className="text-brand" onClick={()=>router.push("/")}>SecurePay</p>
+        <p className="text-brand" onClick={()=>{
+          router.push("/");
+        }
+          }>SecurePay</p>
           </div>
           </motion.div>
         
@@ -69,7 +74,10 @@ export default function Dashboard({children}:{
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-10">
     <div className="flex justify-center p-6 sm:mt-5 mt-10">
-       {children}
+      <RecoilRoot>
+      {children}
+      </RecoilRoot>
+     
       </div>
 
 

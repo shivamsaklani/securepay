@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Exo_2, Geist, Geist_Mono, Roboto, Sora } from "next/font/google";
 import "./globals.css";
-import {Toaster} from "react-hot-toast";
+import { Provider } from "./provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -44,8 +44,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${exo.variable} ${sora.variable} antialiased`}
       >
-        <Toaster position="top-right"/>
+        <Provider>
         {children}
+        </Provider>
+        
+  
+        
       </body>
     </html>
   );

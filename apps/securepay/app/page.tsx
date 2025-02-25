@@ -20,7 +20,7 @@ export default function Home() {
         <p>SecurePay</p>
           </div></motion.div>
        
-       <div className="flex gap-x-5">
+       <div className="hidden sm:flex gap-x-5">
        <motion.div className="font-primary" whileHover={{scale:1.2}}>
         <Link href="/signup"  >Signup</Link>    
           </motion.div>
@@ -34,9 +34,9 @@ export default function Home() {
           
 
 
-        <motion.div whileHover={{scale:1.2}}>
+        {false && <motion.div whileHover={{scale:1.2}} className="hidden sm:flex">
         <Button className="rounded-full font-primary">Logout</Button>
-        </motion.div>
+        </motion.div>}
          
       
       </div>
@@ -49,8 +49,13 @@ export default function Home() {
 <div className="min-h-screen p-y-10">
 
 
-<div className="min-h-screen bg-white">
-    <Image src={BackgroundImage} alt="Background"/>
+<div className="h-auto bg-white">
+  <div className="h-auto w-auto bg-green-300">
+  Pay Secure With Secure pay
+    pay safely with secure pay 
+    <Button>Pay</Button>
+  </div>
+    <Image src={BackgroundImage}  layout="responsive" objectFit="cover" alt="Background"/>
  </div>   
 
 <div className="flex h-screen">

@@ -157,7 +157,11 @@ router.post("/signin", async (req: Request, res: Response) => {
         }
         else {
             const token = jwt.sign({id:existinguser.id,email:existinguser.email}, process.env.JWT_SECRET as string,{ expiresIn: "1h" });
-            res.cookie("jwtsecret",token);
+            res.cookie("jwtsecret",token,{
+                httpOnly: true,  
+        secure: true,  
+        sameSite:'lax',
+            });
             res.status(200).json({
                 mesg:"SignIn Successful",
 
@@ -172,6 +176,12 @@ router.post("/signin", async (req: Request, res: Response) => {
     }
 
 });
+
+router.get("/logout",VerifyToken,(req:Request,res:Response)=>{
+
+    res.status(200).clearCookie("token");
+});
+
 
 router.get("/allusers", VerifyToken,async (req: Request, res: Response) => {
   try {
@@ -228,6 +238,39 @@ router.get("/getuser/:userid",async (req:Request,res:Response)=>{
            return;
         }     
     }
+
+});
+
+router.post("/filter/getuser",async (req:Request,res:Response)=>{
+
+        const {userdata} = req.body;
+        let response;
+        if(!userdata){
+            res.status(404).send("please Enter user name"); return;
+        }
+        else{
+            try {
+                 response = await Database.user.findMany({
+                    where:{
+                         name:{contains:userdata}
+                    },
+                    select:{
+                        name:true,
+                    },
+                    
+                });
+                if(!response) {
+                    res.status(404).send("No user found");
+                    return ;
+                }
+                res.status(200).json({
+                    response
+                });
+            } catch (error) {
+               res.status(500).send("Try Again");
+               return;
+            }     
+        }
 
 });
 

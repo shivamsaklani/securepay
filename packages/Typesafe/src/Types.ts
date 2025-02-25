@@ -5,6 +5,7 @@ export interface UserAccount{
 }
 
 export interface UserDetails{
+    id:string,
     name : string,
     email:string,
     image:string,
