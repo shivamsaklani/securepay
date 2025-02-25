@@ -37,7 +37,7 @@ export default function SignIn(){
       }
     return(
         <>
-     <div className="flex p-5 w-full text-primary justify-center">SignIn</div>
+     <div className="flex p-5 w-full  justify-center">SignIn</div>
      <CardContent>
 
             <Label>Email</Label>

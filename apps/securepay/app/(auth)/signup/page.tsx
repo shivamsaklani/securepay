@@ -34,7 +34,7 @@ export default function Signup(){
      }
     }
     return(<>
-     <div className="flex p-5 w-full text-primary justify-center">Signup</div>
+     <div className="flex p-5 w-full justify-center">Signup</div>
      <CardContent>
              <Label>User</Label>
             <Input ref={userref} className="w-full" type="text" placeholder="Enter User Name" />

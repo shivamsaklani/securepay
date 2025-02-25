@@ -41,7 +41,7 @@ export default function Dashboard({children}:{
    
   return(<>
   <Navbar>
-    <div className="flex h-full w-full bg-muted items-center justify-around bg-secondary">
+    <div className="flex h-full w-full items-center justify-around bg-secondary">
       <motion.div className="font-primary " whileHover={{cursor:"pointer"}}>
         <div className="flex gap-x-3 flex-cols justify-center items-center ">
         <LucideShieldCheck/>
@@ -64,8 +64,8 @@ export default function Dashboard({children}:{
       ))}
     </div>
 
-        <motion.div className="sm:flex  hidden" whileHover={{scale:1.2}}>
-        <Button className="rounded-full font-primary" onClick={Logout}>Logout</Button>
+        <motion.div className="sm:flex  hidden">
+        <Button className="rounded-md font-primary" variant={"default"} onClick={Logout}>Logout</Button>
         </motion.div>
       </div>
     </Navbar>
@@ -74,16 +74,16 @@ export default function Dashboard({children}:{
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-10">
     <div className="flex justify-center p-6 sm:mt-5 mt-10">
-      <RecoilRoot>
+
       {children}
-      </RecoilRoot>
+
      
       </div>
 
 
       <div className="flex justify-start items-start p-6">
          
-         <CardContent className="grid grid-rows-3 justify-start items-center top-10 p-10">
+         <CardContent className="grid sm:grid-cols grid-rows-3 grid-rows justify-start items-center top-10 p-10 ">
          
          <h1 className="font-primary text-brand">Balance : ₹ {balance}</h1>
          <h1 className="font-secondary text-lg"> Account Address<p className="font-primary text-brand">{currentuser?.Account.account_number}</p></h1>
